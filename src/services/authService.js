@@ -30,3 +30,18 @@ export async function signOut() {
   }
   setLocalSession(false);
 }
+export async function signUp({ email, password }) {
+  if (!email?.trim()) throw new Error('Informe o e-mail.')
+  if (!password?.trim()) throw new Error('Informe a senha.')
+
+  const supabase = await getSupabaseClient()
+
+  const { error, data } = await supabase.auth.signUp({
+    email,
+    password
+  })
+
+  if (error) throw new Error(error.message)
+
+  return data
+}
